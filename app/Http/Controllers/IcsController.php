@@ -56,7 +56,6 @@ class IcsController extends Controller
         }
 
         if ($request->input('alarm') != 'none') {
-            var_dump($request->input('alarm')); die();
             $vevent->add('VALARM', [
                 'TRIGGER' => $request->input('alarm'),
                 'REPEAT' => 1,
