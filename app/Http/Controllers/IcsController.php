@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Sabre\VObject;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Validator;
 
 class IcsController extends Controller
 {
@@ -36,13 +37,24 @@ class IcsController extends Controller
 
     public function generate(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'organizer' => 'email',
-            'start' => 'date_format:"Y-m-d H:i:s"',
-            'end' => 'date_format:"Y-m-d H:i:s"',
-            'timezone' => 'timezone'
+            'start' => 'required|date_format:"Y-m-d H:i:s"',
+            'end' => 'required|date_format:"Y-m-d H:i:s"',
+            'timezone' => 'required|timezone',
         ]);
+
+        $startDate = new \DateTime();
+        $endDate = new \DateTime();
+        $startDate->add(new \DateInterval('PT1H'));
+        $endDate->add(new \DateInterval('PT2H'));
+
+        if ($validator->fails()) {
+            return view('index', ['errors' => $validator->errors()] + $request->all() + ['timezones' => \DateTimeZone::listIdentifiers(), 'startDate' => $startDate->format('Y-m-d H:i:s'),
+            'endDate' => $endDate->format('Y-m-d H:i:s')]
+            );
+        }
 
         $vcalendar = new VObject\Component\VCalendar();
         $vevent = $vcalendar->add('VEVENT', [

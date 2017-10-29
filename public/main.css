@@ -30,3 +30,13 @@ svg:not(:root) {
 	font-size: 4.6rem;
     line-height: 1.2;
 }
+
+.form-element.error {
+	color: red;
+}
+
+.form-element.error .error-message{
+	color: red;
+	font-size: 10px;
+	margin-botton: 15px;
+}
