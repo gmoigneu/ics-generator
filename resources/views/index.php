@@ -65,6 +65,22 @@
 			        	<?php endif; ?>
 					</div>
 
+					<div class="form-element <?php echo (isset($errors) && $errors->has('description')) ? 'error' : '';?>">
+			        	<label for="description">Description: </label>
+			        	<input type="text" name="description" placeholder="This can be a URL or a text" value="<?php echo (isset($description) && $description != null) ? $description : ''; ?>"/>
+			        	<?php if (isset($errors) && $errors->has('description')) : ?>
+			        		<p class='error-message'><?php echo implode('. ', $errors->get('description')); ?></p>
+			        	<?php endif; ?>
+					</div>
+
+					<div class="form-element <?php echo (isset($errors) && $errors->has('location')) ? 'error' : '';?>">
+			        	<label for="location">Location: </label>
+			        	<input type="text" name="location" placeholder="Our company headquarters" value="<?php echo (isset($location) && $location != null) ? $location : ''; ?>"/>
+			        	<?php if (isset($errors) && $errors->has('location')) : ?>
+			        		<p class='error-message'><?php echo implode('. ', $errors->get('location')); ?></p>
+			        	<?php endif; ?>
+					</div>
+
 					<div class="form-element">
 			        	<label for="alarm">Alarm: </label>
 			        	<select name="alarm">

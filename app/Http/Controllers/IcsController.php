@@ -43,6 +43,8 @@ class IcsController extends Controller
             'start' => 'required|date_format:"Y-m-d H:i:s"',
             'end' => 'required|date_format:"Y-m-d H:i:s"',
             'timezone' => 'required|timezone',
+            'description' => 'string',
+            'location' => 'string|max:100'
         ]);
 
         $startDate = new \DateTime();
@@ -58,9 +60,11 @@ class IcsController extends Controller
 
         $vcalendar = new VObject\Component\VCalendar();
         $vevent = $vcalendar->add('VEVENT', [
-            'SUMMARY' => $request->input('name'),
-            'DTSTART' => new \DateTime($request->input('start'), new \DateTimeZone($request->input('timezone'))),
-            'DTEND'   => new \DateTime($request->input('end'), new \DateTimeZone($request->input('timezone')))
+            'SUMMARY'     => $request->input('name'),
+            'DTSTART'     => new \DateTime($request->input('start'), new \DateTimeZone($request->input('timezone'))),
+            'DTEND'       => new \DateTime($request->input('end'), new \DateTimeZone($request->input('timezone'))),
+            'DESCRIPTION' => $request->input('description'),
+            'LOCATION'    => $request->input('location'),
         ]);
 
         if ($request->has('organizer') && !empty($request->get('organizer'))) {
